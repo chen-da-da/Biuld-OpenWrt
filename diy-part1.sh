@@ -17,4 +17,4 @@ sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
 echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
 echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
 #echo 'src-git Lienol https://github.com/Lienol/openwrt-package' >>feeds.conf.default
-#echo 'src-git AdGuardHome https://github.com/AdguardTeam/AdGuardHome.git' >>feeds.conf.default
+echo 'src-git AdGuardHome https://github.com/SuLingGG/luci-app-adguardhome.git' >>feeds.conf.default
