@@ -6,6 +6,8 @@
 ![GitHub Stars](https://img.shields.io/github/stars/P3TERX/Actions-OpenWrt.svg?style=flat-square&label=Stars&logo=github)
 ![GitHub Forks](https://img.shields.io/github/forks/P3TERX/Actions-OpenWrt.svg?style=flat-square&label=Forks&logo=github)
 
+
+使用GitHub操作构建OpenWrt的模板
 A template for building OpenWrt with GitHub Actions
 
 ## Usage
