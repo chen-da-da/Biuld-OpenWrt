@@ -21,8 +21,50 @@ A template for building OpenWrt with GitHub Actions
 
 ## Tips
 
-- It may take a long time to create a `.config` file and build the OpenWrt firmware. Thus, before create repository to build your own firmware, you may check out if others have already built it which meet your needs by simply [search `Actions-Openwrt` in GitHub](https://github.com/search?q=Actions-openwrt).
-- Add some meta info of your built firmware (such as firmware architecture and installed packages) to your repository introduction, this will save others' time.
+安装编译依赖
+sudo apt update -y
+sudo apt full-upgrade -y
+sudo apt install -y ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential \
+bzip2 ccache cmake cpio curl device-tree-compiler fastjar flex gawk gettext gcc-multilib g++-multilib \
+git gperf haveged help2man intltool libc6-dev-i386 libelf-dev libglib2.0-dev libgmp3-dev libltdl-dev \
+libmpc-dev libmpfr-dev libncurses5-dev libncursesw5-dev libreadline-dev libssl-dev libtool lrzsz \
+mkisofs msmtp nano ninja-build p7zip p7zip-full patch pkgconf python2.7 python3 python3-pip qemu-utils \
+rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev
+
+下载源代码，更新 feeds 并选择配置
+git clone https://github.com/coolsnowwolf/lede
+cd lede
+./scripts/feeds update -a
+./scripts/feeds install -a
+make menuconfig
+
+下载 dl 库，编译固件
+make download -j8
+make V=s -j1
+
+二次编译：
+cd lede
+git pull
+./scripts/feeds update -a
+./scripts/feeds install -a
+make defconfig
+make download -j8
+make V=s -j$(nproc)
+
+如果需要重新配置：
+rm -rf ./tmp && rm -rf .config
+make menuconfig
+make V=s -j$(nproc)
+
+#清理旧文件
+#如果只是调整检查和驱动等
+make clean
+#如果需要调整架构，或者之前编译出错
+make dirclean
+#删除旧的配置文件
+rm -rf ./tmp && rm -rf .config
+#优先使用多线程编译，出错则使用单线程并输出详细信息
+make -j$(nproc) ||  make -j1 V=s
 
 ## Credits
 
